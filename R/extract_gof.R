@@ -7,6 +7,15 @@ extract_gof <- function(model, fmt = '%.3f', gof_map = NULL, ...) {
     # extract gof from model object
     gof <- broom::glance(model)
 
+    # adding additional stats for felm models:
+    if(class(model) == "felm") {
+        n_obs <- summary(model)$N
+        gof$N <- as.character(N)
+
+        fe_levels <- map_int(model$fe, n_distinct) %>% map_chr(as.character)
+        gof <- cbind(gof, t(fe_levels))
+    }
+
     # extract nobs if not available from glance
     # TODO: This should be fixed upstream
     if (!'n' %in% names(gof)) {
