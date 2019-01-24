@@ -9,10 +9,10 @@ extract_gof <- function(model, fmt = '%.3f', gof_map = NULL, ...) {
 
     # adding additional stats for felm models:
     if(class(model) == "felm") {
-        n_obs <- summary(model)$N
-        gof$N <- as.character(N)
+        n_obs <- summary(model)$N %>% format(big.mark = ",")
+        gof$N <- as.character(n_obs)
 
-        fe_levels <- map_int(model$fe, n_distinct) %>% map_chr(as.character)
+        fe_levels <- map_int(model$fe, n_distinct) %>% map_chr(format, big.mark = ",")
         gof <- cbind(gof, t(fe_levels))
     }
 
