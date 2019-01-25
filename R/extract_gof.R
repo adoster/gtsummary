@@ -9,16 +9,14 @@ extract_gof <- function(model, fmt = '%.3f', fe_map = NULL, gof_map = NULL, ...)
 
     # adding additional stats for felm models:
     if(class(model) == "felm") {
-        n_obs <- summary(model)$N %>% format(big.mark = ",")
-        gof$N <- as.character(n_obs)
-
         fe_levels <- map_int(model$fe, n_distinct) %>% map_chr(format, big.mark = ",")
 
-        if(!is.null(fe_map)){
-            names(fe_levels) <- fe_map[match(names(fe_levels), names(fe_map))]
-            }
+        if(!is.null(fe_map)){names(fe_levels) <- fe_map[match(names(fe_levels), names(fe_map))]}
 
         gof <- cbind(gof, t(fe_levels))
+
+        n_obs <- summary(model)$N %>% format(big.mark = ",")
+        gof$N <- as.character(n_obs)
     }
 
     # extract nobs if not available from glance
