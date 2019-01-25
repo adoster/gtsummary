@@ -4,7 +4,8 @@
 \alias{extract_gof}
 \title{Extract goodness-of-fit statistics from a single model}
 \usage{
-extract_gof(model, fmt = "\%.3f", gof_map = NULL, ...)
+extract_gof(model, fmt = "\%.3f", fe_names = NULL, gof_map = NULL,
+  ...)
 }
 \description{
 Extract goodness-of-fit statistics from a single model

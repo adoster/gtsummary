@@ -1,6 +1,6 @@
 #' Extract goodness-of-fit statistics from a single model
 #'
-extract_gof <- function(model, fmt = '%.3f', gof_map = NULL, ...) {
+extract_gof <- function(model, fmt = '%.3f', fe_map = NULL, gof_map = NULL, ...) {
     if (is.null(gof_map)) {
         gof_map <- gtsummary::gof_map
     }
@@ -13,6 +13,11 @@ extract_gof <- function(model, fmt = '%.3f', gof_map = NULL, ...) {
         gof$N <- as.character(n_obs)
 
         fe_levels <- map_int(model$fe, n_distinct) %>% map_chr(format, big.mark = ",")
+
+        if(!is.null(fe_map)){
+            names(fe_levels) <- fe_map[match(names(fe_levels), names(fe_map))]
+            }
+
         gof <- cbind(gof, t(fe_levels))
     }
 

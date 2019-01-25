@@ -10,6 +10,7 @@ extract <- function(models,
                     coef_map = NULL,
                     coef_omit = NULL,
                     gof_map = NULL,
+                    fe_map = NULL,
                     gof_omit = NULL,
                     add_rows = NULL,
                     stars = NULL,
@@ -33,7 +34,7 @@ extract <- function(models,
            dplyr::select(group, term, statistic, names(.))
     # extract and combine gof
     gof <- models %>%
-           purrr::map(extract_gof, fmt = fmt, gof_map = gof_map)  %>%
+           purrr::map(extract_gof, fmt = fmt, gof_map = gof_map, fe_map = fe_map)  %>%
            purrr::reduce(dplyr::full_join, by = 'term') %>%
            setNames(c('term', model_names))
     # add_rows to bottom of gof
